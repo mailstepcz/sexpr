@@ -4,6 +4,14 @@ import (
 	"errors"
 )
 
+// token types
+const (
+	Ident rune = -(iota + 1)
+	String
+	EOF
+	Error
+)
+
 type (
 	// Identifier is a symbolic atom.
 	Identifier string

@@ -1,4 +1,4 @@
-package pg
+package sexpr
 
 import (
 	"errors"
@@ -23,13 +23,13 @@ func (x Identifier) String() string { return string(x) }
 
 func (x QuotedString) String() string { return string(x) }
 
-// ParseSexpr parses an s-expression.
-func ParseSexpr(s string) ([]interface{}, error) {
-	sc := NewSexprScanner(s)
+// Parse parses an s-expression.
+func Parse(s string) ([]interface{}, error) {
+	sc := NewScanner(s)
 	return parseSexpr(sc, true)
 }
 
-func parseSexpr(sc *SexprScanner, checkFirstPar bool) ([]interface{}, error) {
+func parseSexpr(sc *Scanner, checkFirstPar bool) ([]interface{}, error) {
 	var (
 		els    = make([]interface{}, 0, 10)
 		inList = !checkFirstPar

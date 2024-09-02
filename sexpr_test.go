@@ -1,4 +1,4 @@
-package pg
+package sexpr
 
 import (
 	"testing"
@@ -9,7 +9,7 @@ import (
 func TestSexprParseKinds(t *testing.T) {
 	req := require.New(t)
 
-	r, err := ParseSexpr(`(a "b")`)
+	r, err := Parse(`(a "b")`)
 
 	req.NoError(err)
 	req.Equal(2, len(r))

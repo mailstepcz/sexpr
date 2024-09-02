@@ -1,4 +1,4 @@
-package pg
+package sexpr
 
 import (
 	"errors"
@@ -7,28 +7,28 @@ import (
 	"unsafe"
 )
 
-// SexprScanner is a scanner for s-expressions.
-type SexprScanner struct {
+// Scanner is a scanner for s-expressions.
+type Scanner struct {
 	in  string
 	out []byte
 	acc string
 	err error
 }
 
-// NewSexprScanner creates a new s-expression scanner.
-func NewSexprScanner[T string | []byte](x T) *SexprScanner {
+// NewScanner creates a new s-expression scanner.
+func NewScanner[T string | []byte](x T) *Scanner {
 	out := make([]byte, len(x))
 	switch x := interface{}(x).(type) {
 	case string:
-		return &SexprScanner{in: x, out: out}
+		return &Scanner{in: x, out: out}
 	case []byte:
-		return &SexprScanner{in: unsafe.String(unsafe.SliceData(x), len(x)), out: out}
+		return &Scanner{in: unsafe.String(unsafe.SliceData(x), len(x)), out: out}
 	}
 	panic("bad input")
 }
 
 // Scan scans an s-expression.
-func (sc *SexprScanner) Scan() rune {
+func (sc *Scanner) Scan() rune {
 	if len(sc.in) == 0 {
 		return EOF
 	}
@@ -113,6 +113,6 @@ func (sc *SexprScanner) Scan() rune {
 }
 
 // TokenText returns the text of the token.
-func (sc *SexprScanner) TokenText() string { return sc.acc }
+func (sc *Scanner) TokenText() string { return sc.acc }
 
-func (sc *SexprScanner) Error() error { return sc.err }
+func (sc *Scanner) Error() error { return sc.err }
